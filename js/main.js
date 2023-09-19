@@ -206,3 +206,38 @@ function resetObject() {
     productObj.id = '';
 
 }
+
+// Delete the product 
+function deleteProduct(id) {
+    // delete the product
+    manageProducts.deleteProduct(id);
+
+    // show the message
+    interface.showAlert('El producto se eliminó correctamente');
+
+    // Refresh the product list
+    interface.showProducts(manageProducts);
+}
+
+// Edit a product
+function loadEdition(item) {
+    const { product, description, id } = item;
+
+    console.log(product);
+
+    // Fill the inputs
+    productInput.value = product;
+    descriptionInput.value = description;
+
+    // Fill the object
+    productObj.product = product;
+    productObj.description = description;
+    productObj.id = id;
+
+    console.log(productObj);
+
+    // Change the value on the botton
+    form.querySelector('button[type="submit"]').textContent = 'Guardar cambios';
+
+    edit = true;
+}
