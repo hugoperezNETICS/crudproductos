@@ -61,6 +61,59 @@ class UI {
         }, 3000);
     }
 
+    showProducts({ products }) {
+        this.cleanHTML();
+
+        // iterate the products array   
+        products.forEach((item) => {
+            const { product, description, id } = item;
+
+            const tableRow = document.createElement('TR');
+            tableRow.dataset.id = id;
+
+            const tableHead = document.createElement('TH');
+            tableHead.setAttribute("scope", "row");
+            tableHead.textContent = id;
+
+            const tableDataProduct = document.createElement('TD');
+            tableDataProduct.textContent = product;
+
+            const tableDataDescription = document.createElement('TD');
+            tableDataDescription.textContent = description;
+
+            //Boton para eliminar las citas
+            const btnEliminar = document.createElement('button');
+            btnEliminar.classList.add('btn', 'btn-danger', 'mr-2');
+            btnEliminar.innerHTML =
+                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg> ';
+
+            btnEliminar.onclick = () => deleteProduct(id);
+
+            //Boton para editar una cita
+            const btnEditar = document.createElement('button');
+            btnEditar.classList.add('btn', 'btn-info');
+            btnEditar.innerHTML =
+                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>';
+
+            btnEditar.onclick = () => loadEdition(item);
+
+
+            tableRow.appendChild(tableHead);
+            tableRow.appendChild(tableDataProduct);
+            tableRow.appendChild(tableDataDescription);
+            tableRow.appendChild(btnEliminar);
+            tableRow.appendChild(btnEditar);
+
+
+            tableBody.appendChild(tableRow);
+
+
+
+        });
+
+
+    }
+
     cleanHTML() {
         while (tableBody.firstChild) {
             tableBody.removeChild(tableBody.firstChild);
