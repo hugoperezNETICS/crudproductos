@@ -32,3 +32,93 @@ class Products {
         );
     }
 }
+
+// class for manage the eventes in the user interface
+class UI {
+
+}
+
+// *Instance the objects
+const interface = new UI();
+const manageProducts = new Products();
+
+
+//* Events
+
+eventListeners();
+function eventListeners() {
+    productInput.addEventListener('input', dataProduct);
+    descriptionInput.addEventListener('input', dataProduct);
+    form.addEventListener('submit', newProduct);
+}
+
+//* Information product object 
+const productObj = {
+    product: '',
+    description: '',
+    id: ''
+};
+
+// * Functions 
+
+// function to insert information from inputs to object
+function dataProduct(e) {
+    // brackets sintaxis is used to access to the object properties 
+    productObj[e.target.name] = e.target.value;
+}
+
+// function to add a new product to Product array in the class
+function newProduct(e) {
+    e.preventDefault();
+
+    // destructuring of the product object
+    const { product, description, id } = productObj;
+
+    // validate
+    if (product === '' || description === '') {
+        interface.showAlert('Todos los campos son obligatorios', 'error');
+        return;
+    }
+
+    if (edit) {
+        interface.showAlert('Editado correctamente');
+
+        // Send the object to the edit method
+        manageProducts.editProduct({ ...productObj });
+
+        // Back the original text in the button 
+        form.querySelector('button[type="submit"]').textContent = 'AGREGAR PRODUCTO';
+
+        // Exit the edit mode
+        edit = false;
+    } else {
+        // Generate a unique ID
+        productObj.id = Date.now();
+
+        // Add a new product 
+        // We use the spread operator to send the last product and the last products copy
+        manageProducts.addProduct({ ...productObj });
+
+        // Feedback to the user
+        interface.showAlert('Se agregó correctamente');
+
+    }
+    console.log(manageProducts.products);
+
+
+    // Reset the object
+    resetObject();
+
+    // Reset the form
+    form.reset();
+
+    // Show the products in HTML
+    interface.showProducts(manageProducts);
+}
+
+function resetObject() {
+    productObj.product = '';
+    productObj.description = '';
+    productObj.id = '';
+
+}
