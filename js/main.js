@@ -36,6 +36,37 @@ class Products {
 // class for manage the eventes in the user interface
 class UI {
 
+    // Function give alerts and feedback about the products status
+    showAlert(message, type) {
+        const sectionMessage = document.createElement('SECTION');
+        sectionMessage.classList.add('text-center', 'alert', 'd-block', 'col-12');
+
+        // Type of alert
+        if (type === 'error') {
+            sectionMessage.classList.add('alert-danger');
+        } else {
+            sectionMessage.classList.add('alert-success');
+        }
+
+        // Message content
+        sectionMessage.textContent = message;
+
+        // Add the alert in the DOM
+        document.querySelector('#content')
+            .insertBefore(sectionMessage, document.querySelector('.add-product'));
+
+        // Remove the alert after 3 seconds
+        setTimeout(() => {
+            sectionMessage.remove();
+        }, 3000);
+    }
+
+    cleanHTML() {
+        while (tableBody.firstChild) {
+            tableBody.removeChild(tableBody.firstChild);
+        }
+    }
+
 }
 
 // *Instance the objects
